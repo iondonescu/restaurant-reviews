@@ -286,8 +286,8 @@ nav h1 a {
 	background-color: black;
 	color: white;
 	display: inline-block;
-	font-size: 30px;
 	margin: 0;
+	vertical-align: top;
 }
 .personReviewName{
 	padding-left: 20px;
@@ -299,12 +299,33 @@ nav h1 a {
 .noReviews, .ratingReview,.comments {
 	padding: 0 10px 0;
 }
-
 .ratingReview {
   background-color: #ff5e00;
   width: 85px;
   border-radius: 10px;
   margin-left: 10px;
+}
+/*skip to main content*/
+.skip-link {
+	position:absolute;
+	top:-40px;
+	left:0;
+	background:#292a2d;
+	color:white;
+	padding:8px;
+	z-index:100;
+}
+.skip-link:focus {
+	top:0;
+}
+/*change the color on focus*/
+#neighborhoods-select:focus,#cuisines-select:focus,#restaurants-list li a:focus,
+.inside #restaurant-address:focus,.inside #restaurants-hours:focus,
+.inside #reviews-list:focus,.inside #reviews-list li:focus
+{
+	background-color:#d1d1e0;
+	border-color: black;
+	color:black;
 }
 @media screen and (max-width:450px){
 	.inside header nav {
@@ -318,6 +339,14 @@ nav h1 a {
 	}
 	.personReviewName,.reviewDate,.ratingReview,.comments{
 		font-size: 15px;
+	}
+	.ratingReview{
+		width:65px;
+	}
+	.personReviewName,.reviewDate {
+		padding-top:2.5px;
+		padding-bottom: 2.5px;
+		top:0;
 	}
 	#footer {
 		padding:0;
