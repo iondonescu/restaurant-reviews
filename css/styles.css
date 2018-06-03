@@ -305,7 +305,8 @@ nav h1 a {
   border-radius: 10px;
   margin-left: 10px;
 }
-/*skip to main content*/
+
+/*skip google map focus*/
 .skip-link {
 	position:absolute;
 	top:-40px;
@@ -318,7 +319,8 @@ nav h1 a {
 .skip-link:focus {
 	top:0;
 }
-/*change the color on focus*/
+
+/*change behaviour on focus*/
 #neighborhoods-select:focus,#cuisines-select:focus,#restaurants-list li a:focus,
 .inside #restaurant-address:focus,.inside #restaurants-hours:focus,
 .inside #reviews-list:focus,.inside #reviews-list li:focus
@@ -327,6 +329,9 @@ nav h1 a {
 	border-color: black;
 	color:black;
 }
+
+/* ====================== Responsive on different devices ====================== */
+
 @media screen and (max-width:450px){
 	.inside header nav {
 		height: 50px;

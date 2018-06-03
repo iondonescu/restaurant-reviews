@@ -51,10 +51,10 @@ fetchRestaurantFromURL = (callback) => {
 fillRestaurantHTML = (restaurant = self.restaurant) => {
   const name = document.getElementById('restaurant-name');
   name.innerHTML = restaurant.name;
-
+  name.setAttribute('aria-label','restaurant'+ restaurant.name)
   const address = document.getElementById('restaurant-address');
   address.innerHTML = restaurant.address;
-
+  address.setAttribute('aria-label','restaurant address'+ restaurant.address);
   const image = document.getElementById('restaurant-img');
   image.className = 'restaurant-img'
   image.src = DBHelper.imageUrlForRestaurant(restaurant);
@@ -76,6 +76,7 @@ fillRestaurantHTML = (restaurant = self.restaurant) => {
  */
 fillRestaurantHoursHTML = (operatingHours = self.restaurant.operating_hours) => {
   const hours = document.getElementById('restaurant-hours');
+
   for (let key in operatingHours) {
     const row = document.createElement('tr');
 
@@ -98,6 +99,8 @@ fillReviewsHTML = (reviews = self.restaurant.reviews) => {
   const container = document.getElementById('reviews-container');
   const title = document.createElement('h2');
   title.innerHTML = 'Reviews';
+  title.setAttribute('tabindex','0');
+  title.setAttribute('aria-label','reviews');
   container.appendChild(title);
 
   if (!reviews) {
@@ -119,7 +122,7 @@ fillReviewsHTML = (reviews = self.restaurant.reviews) => {
  */
 createReviewHTML = (review) => {
   const li = document.createElement('li');
-  li.tabIndex = 0;
+  li.setAttribute('tabindex','0');
   const name = document.createElement('p');
   name.classList.add('personReviewName');
   name.innerHTML = review.name;

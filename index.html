@@ -11,24 +11,22 @@
 
 <body>
   <header>
-    <!--skip focus on map -->
-    <a href="#restaurants-list" class="skip-link">Skip focus on map</a>
     <nav>
-      <h1><a href="/" tabindex="-1">Restaurant Reviews</a></h1>
+      <h1><a href="/" tabindex="-1" >Restaurant Reviews</a></h1>
     </nav>
   </header>
-
+  <a href = "#restaurants-list" class="skip-link" aria-label="Skip Google Map Focus">Skip Map Focus</a>
   <main id="maincontent">
-    <section id="map-container">
-      <div id="map"></div>
+    <section id="map-container" aria-label="Map Area">
+      <div id="map" aria-hidden="true" tabindex="-1" role="application"></div>
     </section>
     <section>
       <div class="filter-options">
         <h2>Filter Results</h2>
-        <select id="neighborhoods-select" tabindex="1" name="neighborhoods" onchange="updateRestaurants()">
+        <select id="neighborhoods-select" tabindex="1" aria-label="Select Neighborhood" name="neighborhoods" onchange="updateRestaurants()">
           <option value="all">All Neighborhoods</option>
         </select>
-        <select id="cuisines-select" tabindex="2" name="cuisines" onchange="updateRestaurants()">
+        <select id="cuisines-select" tabindex="2" aria-label="Select Cuisine" name="cuisines" onchange="updateRestaurants()">
           <option value="all">All Cuisines</option>
         </select>
       </div>
