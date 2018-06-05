@@ -1,4 +1,4 @@
-let cache_name = 'restaurant_reviews_static_cache_v3';
+let cache_name = 'restaurant_reviews_static_cache_v4';
 
 // Install the service worker
 self.addEventListener('install', function(event) {

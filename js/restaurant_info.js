@@ -2,6 +2,17 @@ let restaurant;
 var map;
 
 /**
+ *register service worker
+ */
+ navigator.serviceWorker.register('/sw.js')
+   .then(function(reg){
+     console.log('Service Worker registered!');
+   })
+   .catch(function(err){
+     console.log('Service worker NOT registered!')
+   });
+
+/**
  * Initialize Google map, called from HTML.
  */
 window.initMap = () => {
@@ -58,7 +69,7 @@ fillRestaurantHTML = (restaurant = self.restaurant) => {
   const image = document.getElementById('restaurant-img');
   image.className = 'restaurant-img'
   image.src = DBHelper.imageUrlForRestaurant(restaurant);
-  image.alt = "Image of  " + restaurant.name;
+  image.alt = "Image of restaurant " + restaurant.name;
 
   const cuisine = document.getElementById('restaurant-cuisine');
   cuisine.innerHTML = restaurant.cuisine_type;
@@ -97,7 +108,7 @@ fillRestaurantHoursHTML = (operatingHours = self.restaurant.operating_hours) => 
  */
 fillReviewsHTML = (reviews = self.restaurant.reviews) => {
   const container = document.getElementById('reviews-container');
-  const title = document.createElement('h2');
+  const title = document.createElement('h3');
   title.innerHTML = 'Reviews';
   title.setAttribute('tabindex','0');
   title.setAttribute('aria-label','reviews');
