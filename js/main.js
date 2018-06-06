@@ -7,13 +7,17 @@ var markers = []
 /**
  *register service worker
  */
- navigator.serviceWorker.register('/sw.js')
-   .then(function(reg){
-     console.log('Service Worker registered!');
-   })
-   .catch(function(err){
-     console.log('Service worker NOT registered!')
+ // Ignore unsupported browsers
+ if ('serviceWorker' in navigator) {
+   console.log('CLIENT: service worker registration in progress.');
+   navigator.serviceWorker.register('/sw.js').then(function() {
+     console.log('CLIENT: service worker registration complete.');
+   }, function() {
+     console.log('CLIENT: service worker registration failure.');
    });
+ } else {
+   console.log('CLIENT: service worker is not supported.');
+ }
 
 /**
  * Fetch neighborhoods and cuisines as soon as the page is loaded.

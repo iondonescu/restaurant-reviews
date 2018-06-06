@@ -1,9 +1,12 @@
-let cache_name = 'restaurant_reviews_static_cache_v4';
+"use strict";
+let cache_name = 'restaurant_reviews_static_cache';
 
 // Install the service worker
-self.addEventListener('install', function(event) {
+self.addEventListener("install", function(event) {
+  console.log('WORKER: install event in progress.');
   event.waitUntil(
-    caches.open(cache_name).then(function(cache) {
+    caches.open(cache_name)
+    .then(function(cache) {
       console.log('Catch in cache');
       return cache.addAll([
         '/',
@@ -23,45 +26,76 @@ self.addEventListener('install', function(event) {
         'js/main.js',
         'js/restaurant_info.js',
         'index.html',
-        'restaurant.html',
-        'restaurant.html?id=1',
-        'restaurant.html?id=2',
-        'restaurant.html?id=3',
-        'restaurant.html?id=4',
-        'restaurant.html?id=5',
-        'restaurant.html?id=6',
-        'restaurant.html?id=7',
-        'restaurant.html?id=8',
-        'restaurant.html?id=9',
-        'restaurant.html?id=10'
+        'restaurant.html'
       ]);
     })
+    .then(function(){console.log('Service Worker:Install completed');
+  })
   );
 });
 
-// Activate the service worker and implementation for multiple service worker
-self.addEventListener('activate', function(event){
+// Activate the service worker and implementation for multiple service worker (maybe for future work)
+self.addEventListener("activate", function(event){
   console.log('Activated');
-  /*event.waitUntil(
+  event.waitUntil(
   caches.keys().then(function(cacheNames){
     return Promise.all(
     cacheNames.filter(function(cacheNames){
-      return cacheName.startsWith('restaurant-') &&
+      return cacheNames.startsWith('restaurant-') &&
         cacheName != cache_name;
     }).map(function(cacheName){
       return cache.delete(cacheName);
+        })
+      )
     })
   )
-})
-)*/
 });
 
 // Get data from the caches
-self.addEventListener('fetch', function(event) {
+//source https://css-tricks.com/serviceworker-for-offline/ as a Udacity review suggestion
+self.addEventListener("fetch", function(event) {
+  console.log('WORKER: fetch event in progress.');
+  //ignore other method than "get"
+  if (event.request.method !== 'GET'){
+    console.log('WORKER: fetch event ignored.', event.request.method, event.request.url);
+    return;
+  }
+
   event.respondWith(
-    caches.match(event.request).then(function(response){
-      if(response) {return response;}
-      return fetch(event.request);
+    caches
+    .match(event.request)
+    .then(function(cached){
+      var networked = fetch(event.request)
+      .then(fetchedFromNetwork,unableToResolve)
+      .catch(unableToResolve);
+      console.log('WORKER: fetch event', cached ? '(cached)' : '(network)', event.request.url);
+        return cached || networked;
+
+      function fetchedFromNetwork(response) {
+        var cacheCopy = response.clone();
+        console.log('WORKER: fetch response from network.', event.request.url);
+        caches
+        .open(cache_name +'v1') // put in another cache
+        .then(function add(cache) {
+          return cache.put(event.request, cacheCopy);
+        })
+        .then(function() {
+              console.log('WORKER: fetch response stored in cache.', event.request.url);
+            });
+
+        return response;
+      }
+      //unable to produce a response from either the cache or the network.
+      function unableToResolve () {
+          console.log('WORKER: fetch request failed in both cache and network.');
+        return new Response('<h1>Service Unavailable</h1>', {
+          status: 503,
+          statusText: 'Service Unavailable',
+          headers: new Headers({
+            'Content-Type': 'text/html'
+        })
+      });
+      }
     })
   );
 });
